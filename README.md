@@ -1,6 +1,6 @@
 # Wrapper for Specter
 
-Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [EmbassyOS](https://github.com/Start9Labs/embassy-os/).
+Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [StartOS](https://github.com/Start9Labs/embassy-os/).
 
 ## Embassy Service Pre-Requisites
 
