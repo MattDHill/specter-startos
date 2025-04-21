@@ -100,24 +100,17 @@ Simply run:
 make
 ```
 
-This will create `specter.s9pk`, the package for EmbassyOS.
+This will create `specter.s9pk`, the package for StartOS.
 
-## Installing on EmbassyOS
+## Installing on StartOS
 
-If you have the `embassy-cli` tool:
 
-```bash
-embassy-cli auth login
-embassy-cli --host https://embassy-server-name.local package install specter.s9pk
-```
+Drag and drop:
 
-Or with configured host:
+In the StartOS web UI menu, navigate to System -> Sideload Service
 
-```bash
-make install
-```
 
-📦 You can also sideload the `.s9pk` file through the **Embassy > Settings > Sideload Service** UI.
+📦 Sideload the `.s9pk` file through the **Embassy > Settings > Sideload Service** UI.
 
 ## Verify Install
 
