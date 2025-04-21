@@ -1,103 +1,81 @@
-# Wrapper for specter
+# Specter for Start9
 
-Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [embassyOS](https://github.com/Start9Labs/embassy-os/).
+This project wraps [Specter Desktop](https://github.com/cryptoadvance/specter-desktop) into an installable `.s9pk` for [Start9's EmbassyOS](https://start9.com).
 
-## Embassy Service Pre-Requisites: 
+Specter is a GUI for Bitcoin Core optimized to work with hardware wallets and airgapped devices. It simplifies multisig setups and Bitcoin wallet management.
 
-- [Bitcoin Core](https://github.com/Start9Labs/bitcoind-wrapper)
+## 🚀 Features
 
-## Dependencies
+- 📦 Buildable with `make` using the Start9 SDK
+- 🔒 Works with Bitcoin Core v28+ (tested)
+- 🧩 Multisig-friendly GUI with hardware wallet support
+- 📡 Runs on your local Start9 server via Tor or LAN
 
-The following set of dependencies are required to build this project. You can find detailed steps to setup your environment below, and in the service packaging [documentation](https://github.com/Start9Labs/service-pipeline#development-environment).
+---
 
-- [docker](https://docs.docker.com/get-docker)
-- [docker-buildx](https://docs.docker.com/buildx/working-with-buildx/)
-- [yq](https://mikefarah.gitbook.io/yq)
-- [toml](https://crates.io/crates/toml-cli)
-- [embassy-sdk](https://github.com/Start9Labs/embassy-os/tree/master/backend)
-- [make](https://www.gnu.org/software/make/)
+## 🧱 Building the Package
 
-## Build environment
-Prepare your embassyOS build environment. In this example we are using Ubuntu 20.04.
+### 1. Install the [Start9 SDK](https://docs.start9.com/0.3.5.x/developer-docs/dev-tools/embassy-sdk)
 
-1. Install docker
-```
-curl -fsSL https://get.docker.com -o- | bash
-sudo usermod -aG docker "$USER"
-exec sudo su -l $USER
-```
-2. Set buildx as the default builder
-```
-docker buildx install
-docker buildx create --use
-```
-3. Enable cross-arch emulated builds in docker
-```
-docker run --privileged --rm linuxkit/binfmt:v0.8
-```
-4. Install yq
-```
-sudo snap install yq
-```
-5. Install essentials build packages
-```
-sudo apt-get install -y build-essential openssl libssl-dev libc6-dev clang libclang-dev ca-certificates
-```
-6. Install Rust
-```
-curl https://sh.rustup.rs -sSf | sh
-# Choose nr 1 (default install)
-source $HOME/.cargo/env
-```
-7. Install toml
-```
-cargo install toml-cli
-```
-8. Build and install embassy-sdk
-```
-cd ~/ && git clone https://github.com/Start9Labs/embassy-os.git
-cd embassy-os/backend/
-./install-sdk.sh
-```
+Follow the official instructions to install and set up the `start-sdk` on your machine.
 
-## Cloning
+### 2. Build the `.s9pk` package
 
-Clone the project locally. Note the submodule link to the original project. 
-
-```
-git clone https://github.com/Start9Labs/specter-wrapper.git
-cd specter-wrapper
-git submodule update --init --recursive
-```
-## Building
-
-To build the `specter` package, run the following command:
-
-```
+```bash
 make
 ```
 
-## Installing (on embassyOS)
+After a successful build, the file `specter.s9pk` will be created in your project directory.
 
-Run the following commands to determine successful install:
-> :information_source: Change embassy-server-name.local to your Embassy address
+---
 
-```
+## 📲 Installing on EmbassyOS
+
+If you already use the [Embassy CLI](https://docs.start9.com/latest/embassy-cli), you can sideload the package:
+
+```bash
 embassy-cli auth login
-# Enter your embassy password
-embassy-cli --host https://embassy-server-name.local package install specter.s9pk
+embassy-cli --host https://<your-embassy.local> package install specter.s9pk
 ```
 
-If you already have your `embassy-cli` config file setup with a default `host`, you can install simply by running:
+Or use the **Sideload Service** feature in your Embassy UI (under Settings).
 
-```
-make install
-```
+---
 
-> **Tip:** You can also install the specter.s9pk using **Sideload Service** under the **Embassy > Settings** section.
+## ✅ Dependencies
 
-### Verify Install
+Specter requires:
 
-Go to your Embassy Services page, select **Specter**, configure and start the service. Then, verify its interfaces are accessible.
+- 📦 [Bitcoin Core](https://github.com/Start9Labs/bitcoind-wrapper)
+- (Optional) ⚡ [Electrs](https://github.com/Start9Labs/electrs-wrapper)
 
-#Done
+These are auto-detected and configured on Start9 when you install Specter.
+
+---
+
+## ⚙️ Advanced: Manual Build Environment (Optional)
+
+If you're building without the SDK or on custom architectures, you may need:
+
+- Docker + Buildx
+- Rust + toml-cli
+- yq, clang, etc.
+
+Refer to the [Start9 Developer Docs](https://docs.start9.com) for full environment setup.
+
+---
+
+## 🛠️ License
+
+[MIT](LICENSE)
+
+---
+
+## 🙌 Contributing
+
+Fork, build, test — and feel free to open a pull request or issue! You can also find the upstream GUI at [Specter Desktop](https://github.com/cryptoadvance/specter-desktop).
+
+---
+
+Made with ❤️ for sovereignty.
+
