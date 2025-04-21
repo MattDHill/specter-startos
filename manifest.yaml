@@ -1,8 +1,10 @@
 id: specter 
 title: Specter
-version: 2.0.2.2
-release-notes: | 
-  * Remove deprecated optional dependency of BTC RPC Proxy
+version: 2.1.1
+release-notes: |
+  * Updated to Specter Desktop v2.1.1
+  * Support for Bitcoin Core v28.x and v29.x
+  * Improved hardware wallet and multisig experience
 license: mit
 wrapper-repo: https://github.com/Start9Labs/specter-wrapper
 upstream-repo: https://github.com/cryptoadvance/specter-desktop
@@ -60,7 +62,7 @@ interfaces:
       - http
 dependencies:
   bitcoind:
-    version: ">=23.0.0 <27.0.0"
+    version: ">=23.0.0 <30.0.0"
     requirement:
       type: "opt-out"
       how: Alternatively can use Electrs

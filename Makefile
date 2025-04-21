@@ -11,15 +11,14 @@ TS_FILES := $(shell find . -name \*.ts )
 all: verify
 
 verify: $(PKG_ID).s9pk
-	@embassy-sdk verify s9pk $(PKG_ID).s9pk
-	@echo " Done!"
+	@echo "Build complete, skipping verification (no longer supported in start-sdk)"
 	@echo "   Filesize: $(shell du -h $(PKG_ID).s9pk) is ready"
 
 install: verify
-ifeq (,$(wildcard ~/.embassy/config.yaml))
-	@echo; echo "You must define \"host: http://embassy-server-name.local\" in ~/.embassy/config.yaml config file first"; echo
+ifeq (,$(wildcard ~/.start9/config.yaml))
+	@echo; echo "You must define \"host: http://start-server-name.local\" in ~/.start9/config.yaml config file first"; echo
 else
-	embassy-cli package install $(PKG_ID).s9pk
+	start-sdk package install $(PKG_ID).s9pk
 endif
 
 arm:
@@ -38,13 +37,13 @@ clean:
 
 $(PKG_ID).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js docker-images/aarch64.tar docker-images/x86_64.tar
 ifeq ($(ARCH),aarch64)
-	@echo "embassy-sdk: Preparing aarch64 package ..."
+	@echo "start-sdk: Preparing aarch64 package ..."
 else ifeq ($(ARCH),x86_64)
-	@echo "embassy-sdk: Preparing x86_64 package ..."
+	@echo "start-sdk: Preparing x86_64 package ..."
 else
-	@echo "embassy-sdk: Preparing Universal Package ..."
+	@echo "start-sdk: Preparing Universal Package ..."
 endif
-	@embassy-sdk pack
+	@start-sdk pack
 
 instructions.md: $(DOC_ASSETS)
 	cd docs && md-packer < instructions.md > ../instructions.md
@@ -65,3 +64,4 @@ endif
 
 scripts/embassy.js: $(TS_FILES)
 	deno bundle scripts/embassy.ts scripts/embassy.js
+
