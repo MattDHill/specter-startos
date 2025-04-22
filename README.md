@@ -1,6 +1,6 @@
-# Wrapper for Specter
+# Wrapper for specter
 
-Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [StartOS](https://github.com/Start9Labs/start-os).
+Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [StartOS](https://github.com/Start9Labs/start-os/).
 
 ## Embassy Service Pre-Requisites
 
@@ -17,22 +17,22 @@ To build this project, a properly configured environment is necessary. Start9 pr
 1. **Install Docker**
 
 ```bash
-curl -fsSL https://get.docker.com | bash
+curl -fsSL https://get.docker.com -o- | bash
 sudo usermod -aG docker "$USER"
 exec sudo su -l $USER
 ```
 
-2. **Enable cross-arch emulation**
-
-```bash
-docker run --privileged --rm linuxkit/binfmt:v0.8
-```
-
-3. **Install Docker Buildx**
+2. **Set buildx as the default builder**
 
 ```bash
 docker buildx install
 docker buildx create --use
+```
+
+3. **Enable cross-arch emulation**
+
+```bash
+docker run --privileged --rm linuxkit/binfmt:v0.8
 ```
 
 4. **Install yq**
@@ -47,39 +47,26 @@ sudo snap install yq
 sudo apt-get install -y build-essential openssl libssl-dev libc6-dev clang libclang-dev ca-certificates
 ```
 
-6. **Install Git**
-
-```bash
-sudo apt install git
-```
-
-7. **Install Rust & Cargo**
+6. **Install Rust & toml-cli**
 
 ```bash
 curl https://sh.rustup.rs -sSf | sh
 source $HOME/.cargo/env
-```
-
-8. **Install toml-cli**
-
-```bash
 cargo install toml-cli
 ```
 
-9. **Install Start SDK**
+7. **Install start-sdk**
 
 ```bash
 git clone https://github.com/Start9Labs/start-os.git
 cd start-os
-git submodule update --init --recursive
 make sdk
-start-sdk init
 ```
 
-10. *(Optional)* **Install Deno** (required for scripting SDK APIs)
+Then initialize:
 
 ```bash
-sudo snap install deno
+start-sdk init
 ```
 
 ## Cloning the Project
@@ -102,30 +89,50 @@ make
 
 This will create `specter.s9pk`, the package for StartOS.
 
-## Installing on StartOS
+## 🛠️ Installing on StartOS
 
+### 🔄 Method 1: Via the StartOS Web UI (Sideload)
 
-Drag and drop:
+1. In the StartOS web interface, go to:
 
-Or with configured host:
+   ```
+   Settings → Sideload Service
+   ```
+
+2. Drag and drop the `specter.s9pk` file into the window, or select it manually.
+
+3. Follow the on-screen instructions to complete the installation.
+
+### 💻 Method 2: Using the Command Line (with `start-cli`)
+
+> 📌 Make sure you have `start-cli` configured on your development machine.
+
+1. Authenticate to your StartOS instance:
 
 ```bash
-make install
+start-cli auth login
 ```
 
-📦 You can also sideload the `.s9pk` file through the **StartOS > Settings > Sideload Service** UI.
-=======
-In the StartOS web UI menu, navigate to System -> Sideload Service
+2. Sideload the `.s9pk` package:
 
+```bash
+start-cli service sideload ./specter.s9pk
+```
 
+3. Start the service:
+
+```bash
+start-cli service start specter
+```
+
+> 📦 **Note:** You can also sideload the `specter.s9pk` file through the StartOS web interface under **Settings → Sideload Service**.
 
 ## Verify Install
 
-Go to your Embassy Services dashboard, select **Specter**, configure and start the service. Then, verify its interfaces are accessible.
+Go to your StartOS Services dashboard, select **Specter**, configure and start the service. Then, verify its interfaces are accessible.
 
 ---
 
 🎉 Done!
 
-=====
 
