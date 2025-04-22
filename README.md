@@ -1,4 +1,4 @@
-# Wrapper for specter
+# Wrapper for Specter
 
 Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [StartOS](https://github.com/Start9Labs/start-os/).
 
