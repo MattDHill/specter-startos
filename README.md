@@ -1,6 +1,6 @@
-# Wrapper for specter
+# Wrapper for Specter
 
-Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [EmbassyOS](https://github.com/Start9Labs/embassy-os/).
+Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [StartOS](https://github.com/Start9Labs/start-os).
 
 ## Embassy Service Pre-Requisites
 
@@ -100,16 +100,12 @@ Simply run:
 make
 ```
 
-This will create `specter.s9pk`, the package for EmbassyOS.
+This will create `specter.s9pk`, the package for StartOS.
 
-## Installing on EmbassyOS
+## Installing on StartOS
 
-If you have the `embassy-cli` tool:
 
-```bash
-embassy-cli auth login
-embassy-cli --host https://embassy-server-name.local package install specter.s9pk
-```
+Drag and drop:
 
 Or with configured host:
 
@@ -117,7 +113,11 @@ Or with configured host:
 make install
 ```
 
-📦 You can also sideload the `.s9pk` file through the **Embassy > Settings > Sideload Service** UI.
+📦 You can also sideload the `.s9pk` file through the **StartOS > Settings > Sideload Service** UI.
+=======
+In the StartOS web UI menu, navigate to System -> Sideload Service
+
+
 
 ## Verify Install
 
@@ -127,4 +127,5 @@ Go to your Embassy Services dashboard, select **Specter**, configure and start t
 
 🎉 Done!
 
+=====
 
