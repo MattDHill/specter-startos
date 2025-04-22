@@ -5,7 +5,7 @@ release-notes: |
   * Updated to Specter Desktop v2.1.1
   * Support for Bitcoin Core v28.x and v29.x
   * Improved hardware wallet and multisig experience
-developer: Funman2
+developer: Alex71btc, nostr-npub:npub1uhlrd6umajd0rxv36xsl2qkzz4xgmvy29m39mhn8aqrnz0g7x8rq2rnnh8, Github:Funman2
 license: mit
 wrapper-repo: https://github.com/Start9Labs/specter-wrapper
 upstream-repo: https://github.com/cryptoadvance/specter-desktop
