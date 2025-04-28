@@ -74,7 +74,7 @@ start-sdk init
 Clone this repository and its submodules:
 
 ```bash
-git clone https://github.com/Funman2/specter-startos.git
+git clone https://github.com/Alex71btc/specter-startos.git
 cd specter-startos
 git submodule update --init --recursive
 ```
