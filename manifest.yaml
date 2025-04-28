@@ -7,7 +7,7 @@ release-notes: |
   * Improved hardware wallet and multisig experience
 developer: "Alex71btc (https://github.com/Alex71btc)"
 license: mit
-wrapper-repo: https://github.com/Start9Labs/specter-wrapper
+wrapper-repo: https://github.com/Alex71btc/specter-startos
 upstream-repo: https://github.com/cryptoadvance/specter-desktop
 support-site: https://github.com/cryptoadvance/specter-desktop/issues
 marketing-site: https://specter.solutions
