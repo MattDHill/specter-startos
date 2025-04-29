@@ -2,6 +2,13 @@
 
 Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This repository creates the `s9pk` package that is installed to run `specter` on [StartOS](https://github.com/Start9Labs/start-os/).
 
+## 📢 Availability
+
+This app is now available in the **Start9 Beta Community Marketplace** for testing:  
+🔗 [https://community-beta-registry.start9.com/app/specter](https://community-beta-registry.start9.com/app/specter) 
+Here you can install the prebuilt release package from the marketplace without building it. If you want to build Specter Wrapper youself, follow these steps:
+
+
 ## Start9 Service Pre-Requisites
 
 - [Bitcoin Core](https://github.com/Start9Labs/bitcoind-wrapper)
@@ -134,5 +141,14 @@ Go to your StartOS Services dashboard, select **Specter**, configure and start t
 ---
 
 🎉 Done!
+
+## Support
+
+🔹 **Wrapper Issues** (installation problems, StartOS integration, etc.):  
+→ Open a [GitHub Issue](https://github.com/Alex71btc/specter-startos/issues) in this repository.
+
+🔹 **Specter Desktop Issues** (wallet features, hardware wallet bugs, etc.):  
+→ Report directly at [Specter Desktop GitHub](https://github.com/cryptoadvance/specter-desktop/issues).
+
 
 
