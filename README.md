@@ -5,7 +5,7 @@ Specter is a GUI for Bitcoin Core optimized to work with hardware wallets. This 
 ## 📢 Availability
 
 This app is now available in the **Start9 Beta Community Marketplace** for testing:  
-🔗 [https://community-beta-registry.start9.com/app/specter](https://community-beta-registry.start9.com/app/specter) 
+🔗 [https://community-beta-registry.start9.com](https://community-beta-registry.start9.com) 
 Here you can install the prebuilt release package from the marketplace without building it. If you want to build Specter Wrapper youself, follow these steps:
 
 
