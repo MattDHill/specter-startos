@@ -1,4 +1,0 @@
-[submodule "specter-desktop"]
-	path = specter-desktop
-	url = https://github.com/cryptoadvance/specter-desktop.git
-	branch = master

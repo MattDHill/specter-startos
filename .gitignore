@@ -1,9 +1,8 @@
-good-configs
-specter.s9pk
-image.tar
-scripts/embassy.js
-tofix.txt
-*/.DS_Store
+*.s9pk
+startos/*.js
+node_modules/
 .DS_Store
+.vscode/
 docker-images
-.vscode
+javascript
+ncc-cache
