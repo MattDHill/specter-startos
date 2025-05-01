@@ -1,67 +1,55 @@
-DOC_ASSETS := $(shell find ./docs/assets)
-ASSETS := $(shell yq e '.assets.[].src' manifest.yaml)
-ASSET_PATHS := $(addprefix assets/,$(ASSETS))
-PKG_VERSION := $(shell yq e ".version" manifest.yaml)
-PKG_ID := $(shell yq e ".id" manifest.yaml)
-TS_FILES := $(shell find . -name \*.ts )
+PACKAGE_ID := $(shell grep -o "id: '[^']*'" startos/manifest.ts | sed "s/id: '\([^']*\)'/\1/")
+INGREDIENTS := $(shell start-cli s9pk list-ingredients 2> /dev/null)
 
-# delete the target of a rule if it has changed and its recipe exits with a nonzero exit status
+.PHONY: all clean install check-deps check-init ingredients update-deps
+
 .DELETE_ON_ERROR:
 
-all: verify
+all: ${PACKAGE_ID}.s9pk
+	@echo " Done!"
+	@echo " Filesize:$(shell du -h $(PACKAGE_ID).s9pk) is ready"
 
-verify: $(PKG_ID).s9pk
-	@echo "Build complete, skipping verification (no longer supported in start-sdk)"
-	@echo "   Filesize: $(shell du -h $(PKG_ID).s9pk) is ready"
+check-deps:
+	@if ! command -v start-cli > /dev/null; then \
+		echo "Error: start-cli not found. Please install it first."; \
+		exit 1; \
+	fi
+	@if ! command -v npm > /dev/null; then \
+		echo "Error: npm (Node Package Manager) not found. Please install Node.js and npm."; \
+		exit 1; \
+	fi
 
-install: verify
-ifeq (,$(wildcard ~/.start9/config.yaml))
-	@echo; echo "You must define \"host: http://start-server-name.local\" in ~/.start9/config.yaml config file first"; echo
-else
-	start-sdk package install $(PKG_ID).s9pk
-endif
+check-init:
+	@if [ ! -f ~/.startos/developer.key.pem ]; then \
+		start-cli init; \
+	fi
 
-arm:
-	@rm -f docker-images/x86_64.tar
-	ARCH=aarch64 $(MAKE)
+ingredients: $(INGREDIENTS)
+	@echo "Re-evaluating ingredients..."
 
-x86:
-	@rm -f docker-images/aarch64.tar
-	ARCH=x86_64 $(MAKE)
+${PACKAGE_ID}.s9pk: $(INGREDIENTS) | check-deps check-init
+	@$(MAKE) --no-print-directory ingredients
+	start-cli s9pk pack
+
+javascript/index.js: $(shell git ls-files startos) tsconfig.json node_modules package.json
+	npm run build
+
+assets:
+	mkdir -p assets
+
+node_modules: package-lock.json
+	npm ci
+
+package-lock.json: package.json
+	npm i
 
 clean:
-	rm -rf docker-images
-	rm -f $(PKG_ID).s9pk
-	rm -f scripts/*.js
-	rm -f scripts/embassy.js
+	rm -rf ${PACKAGE_ID}.s9pk
+	rm -rf javascript
+	rm -rf node_modules
 
-$(PKG_ID).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js docker-images/aarch64.tar docker-images/x86_64.tar
-ifeq ($(ARCH),aarch64)
-	@echo "start-sdk: Preparing aarch64 package ..."
-else ifeq ($(ARCH),x86_64)
-	@echo "start-sdk: Preparing x86_64 package ..."
-else
-	@echo "start-sdk: Preparing Universal Package ..."
-endif
-	@start-sdk pack
-
-instructions.md: $(DOC_ASSETS)
-	cd docs && md-packer < instructions.md > ../instructions.md
-
-docker-images/x86_64.tar: Dockerfile docker_entrypoint.sh $(ASSET_PATHS)
-ifeq ($(ARCH),aarch64)
-else
-	mkdir -p docker-images
-	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --platform=linux/amd64 --build-arg PLATFORM=amd64 -o type=docker,dest=docker-images/x86_64.tar -f ./Dockerfile .
-endif
-
-docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh $(ASSET_PATHS)
-ifeq ($(ARCH),x86_64)
-else
-	mkdir -p docker-images
-	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --platform=linux/arm64 --build-arg PLATFORM=arm64 -o type=docker,dest=docker-images/aarch64.tar -f ./Dockerfile .
-endif
-
-scripts/embassy.js: $(TS_FILES)
-	deno bundle scripts/embassy.ts scripts/embassy.js
-
+install: | check-deps check-init
+	@if [ ! -f ~/.startos/config.yaml ]; then echo "You must define \"host: http://server-name.local\" in ~/.startos/config.yaml config file first."; exit 1; fi
+	@echo "\nInstalling to $$(grep -v '^#' ~/.startos/config.yaml | cut -d'/' -f3) ...\n"
+	@[ -f $(PACKAGE_ID).s9pk ] || ( $(MAKE) && echo "\nInstalling to $$(grep -v '^#' ~/.startos/config.yaml | cut -d'/' -f3) ...\n" )
+	@start-cli package install -s $(PACKAGE_ID).s9pk
