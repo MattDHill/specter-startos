@@ -19,8 +19,8 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
         kind: 'partial',
         value: {
           prune: 0,
-          wallet: { enable: true } as any,
-          blockfilters: { blockfilterindex: true } as any,
+          wallet: { enable: true },
+          blockfilters: { blockfilterindex: true },
         },
       },
       when: { condition: 'input-not-matches', once: false },
