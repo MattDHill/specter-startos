@@ -19,7 +19,7 @@ export const manifest = setupManifest({
     specter: {
       source: {
         dockerTag:
-          'lncm/specter-desktop@sha256:cc3c718086efa4a906e0d6178e14288484cdf69c48d29becb58b8efd8524c5ef',
+          'lncm/specter-desktop:v2.1.1',
       },
     },
   },
