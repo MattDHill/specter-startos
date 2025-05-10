@@ -35,7 +35,7 @@ export const selectNode = sdk.Action.withInput(
   inputSpec,
 
   // optionally pre-fill the input form
-  async ({ effects }) => configJson.read.const(effects),
+  async ({ effects }) => configJson.read().const(effects),
 
   // the execution function
   async ({ effects, input }) => {
@@ -45,7 +45,7 @@ export const selectNode = sdk.Action.withInput(
 
     if (
       input.active_node_alias === 'bitcoin_core' &&
-      !(await bitcoinCoreJson.read.const(effects))?.user
+      !(await bitcoinCoreJson.read((b) => b.user).const(effects))
     ) {
       const btcUsername = `specter_${utils.getDefaultString({ charset: 'a-z,A-Z', len: 8 })}`
       const btcPassword = utils.getDefaultString({

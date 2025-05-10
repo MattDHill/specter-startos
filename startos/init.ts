@@ -1,5 +1,4 @@
 import { sdk } from './sdk'
-import { exposedStore, initStore } from './store'
 import { setDependencies } from './dependencies'
 import { setInterfaces } from './interfaces'
 import { versions } from './versions'
@@ -26,7 +25,12 @@ const postInstall = sdk.setupPostInstall(async ({ effects }) => {
   await sdk.SubContainer.withTemp(
     effects,
     { imageId: 'specter' },
-    sdk.Mounts.of().addVolume('main', null, '/root', false),
+    sdk.Mounts.of().mountVolume({
+      volumeId: 'main',
+      subpath: null,
+      mountpoint: '/root',
+      readonly: false,
+    }),
     'specter-init',
     async (sub) => {
       await sub.spawn([
@@ -41,7 +45,7 @@ const postInstall = sdk.setupPostInstall(async ({ effects }) => {
       let cfgExists = false
       for (let i = 0; i < 10 && !cfgExists; i++) {
         await new Promise((resolve) => setTimeout(resolve, 4000))
-        cfgExists = !!(await configJson.read.once())
+        cfgExists = !!(await configJson.read().once())
         if (cfgExists) break
       }
       if (!cfgExists) throw new Error('Failed to initialize Specter')
@@ -68,6 +72,4 @@ export const { packageInit, packageUninit, containerInit } = sdk.setupInit(
   setInterfaces,
   setDependencies,
   actions,
-  initStore,
-  exposedStore,
 )

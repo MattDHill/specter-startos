@@ -6,8 +6,9 @@ import { config } from 'bitcoind-startos/startos/actions/config/config'
 import { rpcConfig } from 'bitcoind-startos/startos/actions/config/rpc'
 
 export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
-  const active_node_alias = (await configJson.read.const(effects))
-    ?.active_node_alias
+  const active_node_alias = await configJson
+    .read((c) => c.active_node_alias)
+    .const(effects)
 
   if (!active_node_alias)
     return {} as T.CurrentDependenciesResult<typeof manifest>
