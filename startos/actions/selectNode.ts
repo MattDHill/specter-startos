@@ -1,8 +1,8 @@
 import { utils } from '@start9labs/start-sdk'
-import { configJson } from '../file-models/config.json'
+import { configJson } from '../fileModels/config.json'
 import { sdk } from '../sdk'
 import { generateRpcUserDependent } from 'bitcoind-startos/startos/actions/generateRpcUserDependent'
-import { bitcoinCoreJson } from '../file-models/bitcoin_core.json'
+import { bitcoinCoreJson } from '../fileModels/bitcoin_core.json'
 
 const { InputSpec, Value } = sdk
 
@@ -53,7 +53,7 @@ export const selectNode = sdk.Action.withInput(
         len: 22,
       })
 
-      await sdk.action.request(
+      await sdk.action.createTask(
         effects,
         'bitcoind',
         generateRpcUserDependent,

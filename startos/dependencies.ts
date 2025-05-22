@@ -1,5 +1,5 @@
 import { T } from '@start9labs/start-sdk'
-import { configJson } from './file-models/config.json'
+import { configJson } from './fileModels/config.json'
 import { sdk } from './sdk'
 import { manifest } from './manifest'
 import { config } from 'bitcoind-startos/startos/actions/config/config'
@@ -14,7 +14,7 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
     return {} as T.CurrentDependenciesResult<typeof manifest>
 
   if (active_node_alias === 'bitcoin_core') {
-    await sdk.action.request(effects, 'bitcoind', config, 'critical', {
+    await sdk.action.createTask(effects, 'bitcoind', config, 'critical', {
       input: {
         kind: 'partial',
         value: {
@@ -27,7 +27,7 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
       reason: 'Pruning must be disabled. Wallet must be enabled.',
     })
 
-    await sdk.action.request(effects, 'bitcoind', rpcConfig, 'critical', {
+    await sdk.action.createTask(effects, 'bitcoind', rpcConfig, 'critical', {
       input: { kind: 'partial', value: { threads: 4 } },
       when: { condition: 'input-not-matches', once: false },
       reason: 'Bitcoin RPC must use 4 or more threads',
