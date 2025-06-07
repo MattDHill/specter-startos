@@ -38,14 +38,16 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
         }),
         'specter-sub',
       ),
-      command: [
-        'python3',
-        '-m',
-        'cryptoadvance.specter',
-        'server',
-        '--host',
-        '0.0.0.0',
-      ],
+      exec: {
+        command: [
+          'python3',
+          '-m',
+          'cryptoadvance.specter',
+          'server',
+          '--host',
+          '0.0.0.0',
+        ],
+      },
       ready: {
         display: 'Web Interface',
         fn: () =>
