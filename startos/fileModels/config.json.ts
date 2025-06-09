@@ -1,8 +1,8 @@
 import { matches, FileHelper } from '@start9labs/start-sdk'
-const { object, anyOf, literal } = matches
+const { object, literals } = matches
 
 const shape = object({
-  active_node_alias: anyOf(literal('bitcoin_core'), literal('spectrum_node')),
+  active_node_alias: literals('bitcoin_core', 'spectrum_node'),
 })
 
 export const configJson = FileHelper.json(
