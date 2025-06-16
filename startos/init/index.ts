@@ -2,17 +2,17 @@ import { sdk } from '../sdk'
 import { setDependencies } from '../dependencies'
 import { setInterfaces } from '../interfaces'
 import { versionGraph } from '../install/versionGraph'
-import { actions } from '../actions'
+import { setActions } from '../actions'
 import { restoreInit } from '../backups'
-import { setup } from './setup'
+import { selectNodeTask } from './selectNodeTask'
 
 export const init = sdk.setupInit(
   restoreInit,
   versionGraph,
   setInterfaces,
   setDependencies,
-  actions,
-  setup,
+  setActions,
+  selectNodeTask,
 )
 
 export const uninit = sdk.setupUninit(versionGraph)

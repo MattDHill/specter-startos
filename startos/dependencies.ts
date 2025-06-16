@@ -2,7 +2,7 @@ import { T } from '@start9labs/start-sdk'
 import { configJson } from './fileModels/config.json'
 import { sdk } from './sdk'
 import { manifest } from './manifest'
-import { config } from 'bitcoind-startos/startos/actions/config/config'
+import { config } from 'bitcoind-startos/startos/actions/config/other'
 import { rpcConfig } from 'bitcoind-startos/startos/actions/config/rpc'
 
 export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
